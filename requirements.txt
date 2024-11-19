@@ -1,5 +1,13 @@
 sortedcontainers
-phonenumbers
 pyyaml 
 ua-parser 
 user-agents
+hijri_converter
+phonenumbers
+google_auth
+openpyxl
+ipython
+qrcode
+reportlab
+pycairo
+rlPyCairo
