@@ -2,7 +2,7 @@ sortedcontainers
 pyyaml 
 ua-parser 
 user-agents
-hijri_converter
+hijri-converter
 phonenumbers
 google_auth
 openpyxl
