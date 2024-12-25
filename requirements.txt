@@ -3,6 +3,7 @@ pyyaml
 ua-parser 
 user-agents
 hijri-converter
+hijri_converter
 phonenumbers
 google_auth
 openpyxl
