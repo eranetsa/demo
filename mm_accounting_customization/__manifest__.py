@@ -6,7 +6,7 @@
     'category': 'Uncategorized',
     'version': '18.0',
     'depends': ['base', 'account', 'account_accountant', 'stock', 'hr', 'sale', 'sale_management', 'stock_account', 'account_reports', 'sales_team', 'stock_landed_costs'],
-    # always loaded
+    # always load
     'data': [
         'security/security.xml',
         'security/ir.model.access.csv',
