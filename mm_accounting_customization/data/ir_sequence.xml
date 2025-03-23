@@ -1,0 +1,15 @@
+<odoo>
+    <record id="seq_letter_guarantee_model" model="ir.sequence">
+        <field name="name">letter guarantee Sequence</field>
+        <field name="code">mm.letter.of.guarantee</field>
+        <field name="prefix">LOG</field>
+        <field name="padding">5</field>
+    </record>
+
+    <record id="seq_insurance_model" model="ir.sequence">
+        <field name="name">insurance Sequence</field>
+        <field name="code">mm.insurance</field>
+        <field name="prefix">INSU</field>
+        <field name="padding">5</field>
+    </record>
+</odoo>

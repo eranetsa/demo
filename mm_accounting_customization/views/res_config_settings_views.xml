@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <!--  Accounting setting -->
+    <record id="mm_account_setting_inherit" model="ir.ui.view">
+        <field name="name">mm.account.setting.inherit</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='default_accounts']" position="after">
+                    <t groups="account.group_account_user">
+                        <block title="Default Letter Of Guarantee Accounts" id="default_letter_of_guarantee_accounts">
+                            <setting string="Letter Of Guarantee:">
+                                <div class="content-group">
+                                    <div class="row mt8">
+                                            <label for="let_guar_adv_pay_id" class="col-lg-4 o_light_label" string="Advance payment letter"/>
+                                            <field name="let_guar_adv_pay_id"/>
+                                    </div>
+                                    <div class="row mt8">
+                                            <label for="init_let_gua_id" string="Elementary Letter" class="col-lg-4 o_light_label"/>
+                                            <field name="init_let_gua_id"/>
+                                    </div>
+                                    <div class="row mt8">
+                                            <label for="final_let_guar_id" string="Final Letter" class="col-lg-4 o_light_label"/>
+                                            <field name="final_let_guar_id"/>
+                                    </div>
+                                    </div>
+                            </setting>
+                            <setting id="insurance_setting" string="Insurance:">
+                                <div class="content-group">
+                                        <div class="row mt8">
+                                            <label for="let_guar_insurance_id" string="Advance payment insurance account" class="col-lg-5 o_light_label"/>
+                                            <field name="let_guar_insurance_id"/>
+                                        </div>
+                                <div class="row mt8">
+                                            <label for="init_let_insurance_id" string="Elementary insurance account" class="col-lg-5 o_light_label"/>
+                                            <field name="init_let_insurance_id"/>
+                                        </div>
+                                        <div class="row mt8">
+                                            <label for="final_let_insurance_id" string="Final insurance account" class="col-lg-5 o_light_label"/>
+                                            <field name="final_let_insurance_id"/>
+                                        </div>
+                                </div>
+                            </setting>
+                        </block>
+                    </t>
+            </xpath>
+        </field>
+    </record>
+</odoo>

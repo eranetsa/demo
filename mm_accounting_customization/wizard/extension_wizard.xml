@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="mm_extension_wizard_from_view" model="ir.ui.view">
+        <field name="name">mm.extension.wizard.from.view</field>
+        <field name="model">mm.extension.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Change Notification data">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="letter_of_guarantee_id" readonly="1"/>
+                            <field name="accounting_date"/>
+                            <field name="expense_value"/>
+                        </group>
+                        <group>
+                            <field name="start_date" required="1"/>
+                            <field name="end_date" required="1"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="status" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_extension" string="Create" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mm_extension_wizard" model="ir.actions.act_window">
+        <field name="name">Extension</field>
+        <!-- <field name="type">ir.actions.act////////_window</field> -->
+        <field name="res_model">mm.extension.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="mm_extension_wizard_from_view"/>
+        <field name="target">new</field>
+    </record>
+
+
+</odoo>

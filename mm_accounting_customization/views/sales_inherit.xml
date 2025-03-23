@@ -1,0 +1,139 @@
+<odoo>
+    <data>
+        <record id="mm_view_order_form_inherit" model="ir.ui.view">
+            <field name="name">sale.order.inherited</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='payment_term_id']" position="attributes">
+                    <attribute name="readonly">state=='done'</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='user_id']" position="attributes">
+                    <attribute name="readonly">state=='done'</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='team_id']" position="attributes">
+                    <attribute name="readonly">state=='done'</attribute>
+                </xpath>
+                <xpath expr="//page[@name='other_information']/group/group[@name='sales_person']//field[@name='company_id']" position="attributes">
+                    <attribute name="readonly">state=='done'</attribute>
+                </xpath>
+                <xpath expr="//field[@name='client_order_ref']" position="attributes">
+                    <attribute name="readonly">state=='done'</attribute>
+                </xpath>
+                <xpath expr="//field[@name='tag_ids']" position="attributes">
+                    <attribute name="readonly">state=='done'</attribute>
+                </xpath>
+                <xpath expr="//field[@name='fiscal_position_id']" position="attributes">
+                    <attribute name="readonly">state=='done'</attribute>
+                </xpath>
+                <xpath expr="//field[@name='campaign_id']" position="attributes">
+                    <attribute name="readonly">state=='done'</attribute>
+                </xpath>
+                <xpath expr="//field[@name='medium_id']" position="attributes">
+                    <attribute name="readonly">state=='done'</attribute>
+                </xpath>
+                <xpath expr="//field[@name='source_id']" position="attributes">
+                    <attribute name="readonly">state=='done'</attribute>
+                </xpath>
+                <xpath expr="//field[@name='signed_by']" position="attributes">
+                    <attribute name="readonly">state=='done'</attribute>
+                </xpath>
+                <xpath expr="//field[@name='signed_on']" position="attributes">
+                    <attribute name="readonly">state=='done'</attribute>
+                </xpath>
+                <xpath expr="//field[@name='signature']" position="attributes">
+                    <attribute name="readonly">state=='done'</attribute>
+                </xpath>
+                <xpath expr="//field[@name='origin']" position="attributes">
+                    <attribute name="readonly">state=='done'</attribute>
+                </xpath>
+
+               
+
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="sales_man_id" readonly="state== 'done'"/>
+                    <field name="is_look_sales" invisible="1"/>
+                </xpath>
+                <xpath expr="//button[@name='action_quotation_send']" position="attributes">
+                    <attribute name="invisible">{is_look_sales==True}</attribute>
+                </xpath>
+
+                <xpath expr="//button[@name='action_quotation_send']" position="replace">
+                    <button name="action_quotation_send" string="Send by Email" type="object" class="btn-primary" data-hotkey="g"
+                            invisible="is_look_sales== True or state!='draft'"
+                    />
+                </xpath>
+
+                <xpath expr="//button[@name='action_quotation_send'][last()]" position="replace">
+                    <button name="action_quotation_send" string="Send by Email" type="object" data-hotkey="g"
+                            invisible="is_look_sales==True or state not in ['sent', 'sale']"
+                    />
+                </xpath>
+                <xpath expr="//form//header//button[@name='action_cancel']" position="replace">
+                    <button name="action_cancel" type="object" string="Cancel" invisible="is_look_sales== True or state not in ['draft', 'sent','sale'] or id== False" data-hotkey="z"/>
+                </xpath>
+
+                <xpath expr="//button[@name='%(sale.action_view_sale_advance_payment_inv)d']" position="attributes">
+                    <attribute name="invisible">invoice_status!='to invoice' or is_look_sales== True</attribute>
+                </xpath>
+
+                <xpath expr="//button[@name='%(sale.action_view_sale_advance_payment_inv)d'][last()]" position="replace">
+                   <button name="%(sale.action_view_sale_advance_payment_inv)d" string="Create Invoice" type="action" context="{'default_advance_payment_method': 'percentage'}" data-hotkey="q"
+                           invisible="invoice_status!= 'no' or state!='sale' or is_look_sales== True"
+                   />
+                </xpath>
+            </field>
+        </record>
+        <record id="mm_view_order_list_inherit" model="ir.ui.view">
+            <field name="name">sale.order.inherited</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_quotation_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="sales_man_id"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="mm_view_order_filter_inherit" model="ir.ui.view">
+            <field name="name">sale.order.inherited</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='salesperson']" position="after">
+                    <field name="sales_man_id"/>
+                    <filter string="Sales man" name="sales_man_id" domain="[]" context="{'group_by': 'sales_man_id'}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- <record id="view_sales_order_auto_done_setting" model="ir.ui.view">
+            <field name="name">sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_sales_order_auto_done_setting"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form//header//button[@name='action_draft']" position="after">
+                    <field name="is_look_sales" invisible="1"/>
+                </xpath>
+                <xpath expr="//form//header//button[@name='action_unlock']" position="replace">
+                    <button name="action_unlock" type="object" string="Unlock"
+                            invisible="is_look_sales==True or state!= 'done'"
+                    />
+                </xpath>
+                <xpath expr="//form//header//button[@name='action_done']" position="replace">
+                   <button name="action_done" type="object" string="Lock"
+                        help="If the sale is locked, you can not modify it anymore. However, you will still be able to invoice or deliver."
+                           invisible="is_look_sales== True or state!= 'sale'"
+                           />
+                </xpath>
+            </field>
+        </record> -->
+
+        <!-- <record id="sale.view_sales_order_auto_done_setting" model="ir.ui.view">
+            <field name="groups_id" eval="[(6, 0, [])]"/>
+        </record> -->
+
+    </data>
+</odoo>

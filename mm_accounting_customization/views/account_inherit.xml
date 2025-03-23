@@ -1,0 +1,230 @@
+<odoo>
+    <data>
+<!--        <record id="mm_account_payment_register_form_inherit" model="ir.ui.view">
+            <field name="name">account.payment.register.form.inherit</field>
+            <field name="model">account.payment.register</field>
+            <field name="inherit_id" ref="account.view_account_payment_register_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='group3']" position="after">
+                    <group string="Cash Guarantee" name="group4" invisible="payment_difference_handling', '!=', 'reconcile')]}">
+                        <field name="move_mm_test_id" invisible="1"/>
+                        <field name="type"  attrs="{'required': [('payment_difference_handling', '=', 'reconcile')]}"/>
+                        <field name="start_date"  attrs="{'required': [('payment_difference_handling', '=', 'reconcile')]}"/>
+                        <field name="end_date"  attrs="{'required': [('payment_difference_handling', '=', 'reconcile')]}"/>
+                        <field name="mm_payment_type"  attrs="{'required': [('payment_difference_handling', '=', 'reconcile')]}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>-->
+
+<!--        <record id="mm_account_journal_view" model="ir.ui.view">
+            <field name="name">account.journal.dashboard.payment</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.account_journal_dashboard_kanban_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('o_kanban_manage_view')]" position="inside">
+                    <div invisible="type!='bank'">
+                        <a type="object" name="open_letter_of_guarantee_action"
+                           context="{'action_name': 'action_bank_statement_line', 'search_default_journal': True,'search_default_statement': 1}">
+                            Letter Of Guarantee
+                        </a>
+                    </div>
+                    <div invisible="type', 'not in', ['bank','cash'])]}">
+                        <a type="object" name="open_insurance_action"
+                           context="{'action_name': 'action_bank_statement_line', 'search_default_journal': True,'search_default_statement': 1}">
+                            Insurance
+                        </a>
+                    </div>
+                </xpath>
+            </field>
+        </record>-->
+
+        <record id="mm_account_journal_form_view_i" model="ir.ui.view">
+            <field name="name">account.journal.form</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='type']" position="after">
+                    <field name="insurance_account_id" invisible="type not in ['bank', 'cash']"/>
+                    <field name="bank_facility_account_id" invisible="type!='bank'"/>
+                    <field name="expense_account_id" invisible="type not in['bank', 'cash', 'general']"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="mm_account_move_form_inherit" model="ir.ui.view">
+            <field name="name">account.move.form.inherit</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='payment_reference']" position="after">
+                    <field name="portal_id"/>
+                    <field name="notes"/>
+                    <field name="letter_of_guarantee_id" invisible="1"/>
+                    <field name="insurance_ids" widget="many2many_tags" invisible="1"/>
+                </xpath>
+                <!-- <xpath expr="//header" position="inside">
+                    <button name="%(mm_accounting_customization.action_mm_cash_guarantee_wizard)d"
+                            type="action" string="Cash Guarantee" class="oe_highlight"
+                            invisible="state!= 'posted' or payment_state not in ['not_paid','partial'] or move_type not in ['out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt']"
+                            context="{'default_partner_id': partner_id, 'default_journal_id': journal_id, 'default_date': invoice_date, 'default_move_id': active_id,}"
+                    />
+
+
+                </xpath> -->
+                <!-- <xpath expr="//button[@name='action_register_payment']" position="attributes">
+                    <attribute name="context">{'dont_redirect_to_payments': True,'default_move_mm_test_id': active_id}</attribute>
+                </xpath> -->
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="is_group_access_seq" invisible="1"/>
+                </xpath>
+                
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="get_cash_guarantee" type="object" class="oe_stat_button" icon="fa-exchange"
+                            invisible="move_type!= 'out_invoice'">
+                        <field name="cash_guarantee_count" string="Cash Guarantee"  widget="statinfo"/>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- <record id="mm_account_move_list_inherit" model="ir.ui.view">
+            <field name="name">account.move.form.inherit</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_out_invoice_list"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="portal_id"/>
+                </xpath>
+            </field>
+        </record> -->
+
+        <!-- <record id="mm_account_move_line_list_inherit" model="ir.ui.view">
+            <field name="name">account.move.line.form.inherit</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_move_line_list"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='move_id']" position="after">
+                    <field name="portal_id"/>
+                </xpath>
+            </field>
+        </record> -->
+        <record id="mm_account_payment_form_inherit" model="ir.ui.view">
+            <field name="name">account.payment.form.inherit</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="run_compute" invisible="1"/>
+                    <field name="portal_id"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="mm_account_payment_list_inherit" model="ir.ui.view">
+            <field name="name">account.payment.list.inherit</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="portal_id"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="mm_stock_move_line_list_inherit" model="ir.ui.view">
+            <field name="name">stock.move.line.list.inherit</field>
+            <field name="model">stock.move.line</field>
+            <field name="inherit_id" ref="stock.view_move_line_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='location_dest_id']" position="after">
+                    <field name="is_has_cost" invisible="1"/>
+                    <field name="lst_price"/>
+                    <field name="cost_per_unit" invisible="is_has_cost== False"/>
+                    <field name="total_cost" invisible="is_has_cost== False"/>
+                    <field name="picking_partner_id"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="mm_stock_move_line_form_inherit" model="ir.ui.view">
+            <field name="name">stock.move.line.form.inherit</field>
+            <field name="model">stock.move.line</field>
+            <field name="inherit_id" ref="stock.view_move_line_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='location_dest_id']" position="after">
+                    <field name="is_has_cost" invisible="1"/>
+                    <field name="lst_price"/>
+                    <field name="cost_per_unit" invisible="is_has_cost== False"/>
+                    <field name="total_cost" invisible="is_has_cost== False"/>
+                    <field name="picking_partner_id"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="mm_stock_move_list_inherit" model="ir.ui.view">
+            <field name="name">stock.move.list.inherit</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='location_dest_id']" position="after">
+                    <field name="is_has_cost" invisible="1"/>
+                    <field name="lst_price"/>
+                    <field name="standard_price" invisible="is_has_cost== False"/>
+                    <field name="partner_id" string="Destination Address "/>
+                </xpath>
+            </field>
+        </record>
+        <record id="mm_stock_move_form_inherit" model="ir.ui.view">
+            <field name="name">stock.move.form.inherit</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='location_dest_id']" position="after">
+                    <field name="is_has_cost" invisible="1"/>
+                    <field name="lst_price"/>
+                    <field name="standard_price" invisible="is_has_cost==False"/>
+                    <field name="partner_id" string="Destination Address "/>
+                </xpath>
+            </field>
+        </record>
+        <record id="mm_product_template_form_inherit" model="ir.ui.view">
+            <field name="name">product.template.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='general_information']//field[@name='standard_price']" position="after">
+                    <field name="is_has_cost" invisible="1"/>
+                </xpath>
+                <xpath expr="//page[@name='general_information']//label[@for='standard_price']" position="attributes">
+                    <attribute name="invisible">is_has_cost== False</attribute>
+                </xpath>
+                <xpath expr="//page[@name='general_information']//field[@name='standard_price']" position="attributes">
+                    <attribute name="invisible">is_has_cost== False</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="mm_product_template_list_inherit" model="ir.ui.view">
+            <field name="name">product.template.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_variant_count']" position="after">
+                    <field name="is_has_cost" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='standard_price']" position="attributes">
+                    <attribute name="invisible">is_has_cost== False</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="mm_product_product_list_inherit" model="ir.ui.view">
+            <field name="name">product.product.inherit</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_product_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='default_code']" position="after">
+                    <field name="is_has_cost" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='standard_price']" position="attributes">
+                    <attribute name="invisible">is_has_cost== False</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

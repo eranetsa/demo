@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mm_extension_wizard,mm_extension_wizard,model_mm_extension_wizard,,1,1,1,1
+access_mm_ramping_wizard,mm_ramping_wizard,model_mm_ramping_wizard,,1,1,1,1
+access_mm_cash_guarantee_wizard,mm_cash_guarantee_wizard,model_mm_cash_guarantee_wizard,,1,1,1,1
+access_mm_letter_of_guarantee,mm_letter_of_guarantee,model_mm_letter_of_guarantee,,1,1,1,1
+access_mm_letter_of_guarantee_line,mm_letter_of_guarantee_line,model_mm_letter_of_guarantee_line,,1,1,1,1
+access_mm_insurance,mm_insurance,model_mm_insurance,,1,1,1,1
+access_mm_insurance_line,mm_insurance_line,model_mm_insurance_line,,1,1,1,1
+access_mm_extension_line,mm_extension_line,model_mm_extension_line,,1,1,1,1
+access_mm_insurance_reduction_wizard,mm_insurance_reduction_wizard,model_mm_insurance_reduction_wizard,,1,1,1,1
