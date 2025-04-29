@@ -1,0 +1,128 @@
+<odoo>
+    <record id="view_mm_insurance_search" model="ir.ui.view">
+        <field name="name">mm.insurance.search</field>
+        <field name="model">mm.insurance</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="date"/>
+                <separator/>
+                <filter name="filter_date" date="date"/>
+                <field name="journal_id" domain="[('type', 'in', ('bank', 'cash'))]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Journal" name="journal" context="{'group_by': 'journal_id'}"/>
+                    <filter string="Status" name="status" context="{'group_by': 'state'}"/>
+                    <filter string="Date" name="date" context="{'group_by': 'date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="mm_insurance_view_list" model="ir.ui.view">
+        <field name="name">mm.insurance.view.list</field>
+        <field name="model">mm.insurance</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="journal_id"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+<!--
+                <field name="letter_of_guarantee"/>
+-->
+                <field name="letter_amount"/>
+                <field name="type"/>
+                <field name="state" string="Stage"/>
+                <!--                <field name="debit_account_id" groups="mm_accounting_customization.group_access_debit_credit"/>
+                                <field name="credit_account_id" groups="mm_accounting_customization.group_access_debit_credit"/>-->
+            </list>
+        </field>
+    </record>
+
+    <record id="mm_insurance_view_form" model="ir.ui.view">
+        <field name="name">mm.insurance.view.form</field>
+        <field name="model">mm.insurance</field>
+        <field name="arch" type="xml">
+            <form duplicate="false">
+                <header>
+                    <button name="action_approve" type="object"  class="oe_highlight" string="Approve"/>
+                    <button name="action_recovery_request" type="object" class="oe_highlight" string="Recovery Request" invisible="is_insurance_confiscation== True or is_recovery== True or state in ['draft', 'recovery', 'recovery_request']"/>
+
+                    <button name="action_recovery" type="object"  class="oe_highlight" string="Recovery" />
+
+                    <button name="action_insurance_confiscation" type="object" class="oe_highlight" string="Insurance Confiscation" invisible="is_insurance_confiscation==True or is_recovery==True or state not in ['approve', 'recovery_request']"/>
+                    <button name="action_cancel" type="object" invisible="state=='draft'" class="oe_highlight" string="Cancel"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,approve"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="open_journal_entries" type="object" class="oe_stat_button" icon="fa-bars"
+                                invisible="journal_entries_count== 0">
+                            <field name="journal_entries_count" string="Journal Entries" widget="statinfo"/>
+                        </button>
+                    </div>
+                    <label for="name" class="oe_edit_only"/>
+                    <h2>
+                        <field name="name" readonly="is_group_access_seq== False"/>
+                    </h2>
+                    <group>
+                        <group>
+                            <field name="accounting_date" invisible="1"/>
+                            <field name="is_group_access_seq" invisible="1"/>
+                            <field name="is_insurance_confiscation" invisible="1"/>
+                            <field name="is_recovery" invisible="1"/>
+                            <field name="partner_id" required="0" readonly="state != 'draft'"/>
+                            <field name="journal_id" required="1" readonly="state != 'draft'"/>
+                            <field name="start_date" required="1"/>
+                            <field name="end_date" required="1"/>
+                            <field name="notes" required="1" readonly="state not in ['draft', 'approve']"/>
+                            <field name="recovery_journal_id" invisible="1"  readonly="state in ['insurance_confiscation','cancel', 'recovery']"/>
+                            <field name="move_id" readonly="1" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="date" required="1" readonly="state != 'draft'"/>
+                            <field name="type" required="1" readonly="state !='draft'"/>
+                            <field name="writeoff_account_id" invisible="1"/>
+                            <field name="writeoff_amount" invisible="1"/>
+                            <field name="letter_amount" invisible="1"/>
+<!--
+                            <field name="insurance_type" readonly="state '!=', 'draft')]}"/>
+-->
+                            <!--                            <field name="debit_account_id" groups="mm_accounting_customization.group_access_debit_credit"/>
+                                                        <field name="credit_account_id" groups="mm_accounting_customization.group_access_debit_credit"/>-->
+                        </group>
+                    </group>
+                    <notebook>
+                        <page id="tab" string="Account" groups="mm_accounting_customization.group_access_debit_credit">
+                            <field name="insurance_ids" readonly="state != 'draft'">
+                                <list editable="bottom">
+                                    <field name="link_id" invisible="0"/>
+                                    <field name="account_id"/>
+                                    <field name="debit" sum="total_debit"/>
+                                    <field name="credit" sum="total_credit"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <!-- <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div> -->
+            </form>
+        </field>
+    </record>
+
+    <record id="mm_insurance_action" model="ir.actions.act_window">
+        <field name="name">Cash Guarantee</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">mm.insurance</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="sub_mm_insurance" name="Insurance" parent="account.menu_finance_reports"
+              action="mm_insurance_action" sequence="101"/>
+
+</odoo>

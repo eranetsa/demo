@@ -1,0 +1,15 @@
+<odoo>
+    <data>
+        <record id="mm_stock_valuation_layer_form_inherit" model="ir.ui.view">
+            <field name="name">stock.valuation.layer.inherit</field>
+            <field name="model">stock.valuation.layer</field>
+            <field name="inherit_id" ref="stock_account.stock_valuation_layer_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='value']" position="before">
+                    <field name="reference"/>
+                    <field name="unit_cost"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
