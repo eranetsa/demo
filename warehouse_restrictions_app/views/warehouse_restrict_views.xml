@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="view_users_form_mail" model="ir.ui.view">
+			<field name="name">res.users.form.mail</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+        		<xpath expr="//group[@name='preferences']" position="before">
+                    <group string="Warehouse Operation Restrictions">
+                        <field name="restrict_warehouse_operation"/>
+                    </group>
+                    <group string="Warehouse Location Restrictions">
+                        <field name="restrict_location"/>
+                    </group>
+                    <group invisible="restrict_warehouse_operation == False">
+                        <field name="picking_type_ids" widget="many2many_tags" required="restrict_warehouse_operation == True" />
+                    </group>
+                    <group invisible="restrict_location == False">
+                        <field name="available_location_ids" widget="many2many_tags" required="restrict_location == True" />
+                    </group>
+
+                    <group string="Stock Warehouse Operation Restrictions">
+                        <field name="restrict_stock_warehouse_operation"/>
+                    </group>
+                    <group invisible="restrict_stock_warehouse_operation == False">
+                        <field name="available_warehouse_ids" widget="many2many_tags" required="restrict_stock_warehouse_operation == True" />
+                    </group>
+        		</xpath>
+			</field>
+		</record>
+	</data>
+</odoo>

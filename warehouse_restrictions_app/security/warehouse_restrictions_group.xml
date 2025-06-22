@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="group_restrict_stock_warehouse" model="res.groups">
+		<field name="name">Restrict Stock Warehouse Operations / Locations </field>
+	</record>
+
+</odoo>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data noupdate="0">
+
+		<!-- =========== Warehouse Operation Restriction Access Rule ========== -->
+		<record id="rule_stock_picking_warehouse_restrict" model="ir.rule">
+			<field name="name">Stock Picking Warehouse Restriction</field>
+	        <field name="model_id" ref="stock.model_stock_picking"/>		
+			<field name="domain_force">[('picking_type_id','in',user.picking_type_ids.ids)]</field>
+			<field name="groups" eval="[(4, ref('warehouse_restrictions_app.group_restrict_stock_warehouse'))]"/>	
+		</record>
+
+		<record id="rule_stockpickingtype_warehouse_restrict" model="ir.rule">
+			<field name="name">Stock Picking Type Warehouse Restriction</field>
+			<field name="model_id" ref="stock.model_stock_picking_type"/>
+			<field name="domain_force">[('id','in',user.picking_type_ids.ids)]</field>
+			<field name="groups" eval="[(4, ref('warehouse_restrictions_app.group_restrict_stock_warehouse'))]"/>
+		</record>
+
+		<!-- =========== Stock Warehouse Operation Restriction Access Rule ========== -->
+		<record id="rule_stockwarehouse_restrict" model="ir.rule">
+			<field name="name">Stock Picking Type Warehouse Restriction</field>
+			<field name="model_id" ref="stock.model_stock_warehouse"/>
+			<field name="domain_force">[('id','in',user.available_warehouse_ids.ids)]</field>
+			<field name="groups" eval="[(4, ref('warehouse_restrictions_app.group_restrict_stock_warehouse'))]"/>
+		</record>
+
+		<!-- =========== Warehouse Location Restrictions Access Rule ========== -->
+
+		<record id="rule_stock_picking_warehouse_restrict_base_on_location" model="ir.rule">
+			<field name="name">Stock Picking Warehouse Restriction Base on Location</field>
+	        <field name="model_id" ref="stock.model_stock_picking"/>		
+			<field name="domain_force">['|',('location_dest_id','in',user.available_location_ids.ids),('location_id','in',user.available_location_ids.ids)]</field>
+			<field name="groups" eval="[(4, ref('warehouse_restrictions_app.group_restrict_stock_warehouse'))]"/>	
+		</record>
+
+		 <record model="ir.rule" id="rule_stock_location_warehouse_restrict">
+			<field name="name">Stock Location Warehouse Restriction</field>
+			<field name="model_id" ref="stock.model_stock_location"/>	
+			<field name="domain_force">['|','|','|','|',('child_ids','in',user.available_location_ids.ids),('location_id','child_of',user.available_location_ids.ids),('location_id','parent_of',user.available_location_ids.ids),('location_id','in',user.available_location_ids.ids), ('id','in',user.available_location_ids.ids)]</field>	
+			<field name="groups" eval="[(4, ref('warehouse_restrictions_app.group_restrict_stock_warehouse'))]"/>
+		</record>
+
+		<record id="rule_stockpickingtype_warehouse_restrict_base_location" model="ir.rule">
+			<field name="name">Stock Picking type Warehouse Restriction Base on Location</field>
+			<field name="model_id" ref="stock.model_stock_picking_type"/>
+			<field name="domain_force">['|','|',('default_location_dest_id','in',user.available_location_ids.ids),('default_location_src_id','in',user.available_location_ids.ids),('id','in',user.picking_type_ids.ids)]</field>
+			<field name="groups" eval="[(4, ref('warehouse_restrictions_app.group_restrict_stock_warehouse'))]"/>
+		</record>
+
+		<record id="rule_stockquant_warehouse_restrict" model="ir.rule">
+			<field name="name">Stockquant Inventories Warehouse Restriction</field>
+			<field name="model_id" ref="stock.model_stock_quant"/>	
+			<field name="domain_force">[('location_id','in',user.available_location_ids.ids)]</field>
+			<field name="groups" eval="[(4, ref('warehouse_restrictions_app.group_restrict_stock_warehouse'))]"/>	
+		</record>
+
+		<record id="rule_stockwarehouse_warehouse_restrict" model="ir.rule">
+			<field name="name">Stockwarehouse Warehouse Restriction</field>
+			
+			<field name="model_id" ref="stock.model_stock_warehouse"/>
+			<field name="domain_force">[('lot_stock_id','in',user.available_location_ids.ids)]</field>
+			<field name="groups" eval="[(4, ref('warehouse_restrictions_app.group_restrict_stock_warehouse'))]"/>	
+		</record>
+
+		<record id="rule_stockmove_warehouse_restrict" model="ir.rule">
+			<field name="name">StockMove Warehouse Restriction</field>
+			<field name="model_id" ref="stock.model_stock_move"/>
+			<field name="domain_force">['|',('location_dest_id','in',user.available_location_ids.ids),('location_id','in',user.available_location_ids.ids)]</field>
+			<field name="groups" eval="[(4, ref('warehouse_restrictions_app.group_restrict_stock_warehouse'))]"/>	
+		</record>
+
+		<record id="rule_stockmoveline_warehouse_restrict" model="ir.rule">
+			<field name="name">StockMoveLine Warehouse Restriction</field>
+			<field name="model_id" ref="stock.model_stock_move_line"/>
+			<field name="domain_force">['|',('location_dest_id','in',user.available_location_ids.ids),('location_id','in',user.available_location_ids.ids)]</field>
+			<field name="groups" eval="[(4, ref('warehouse_restrictions_app.group_restrict_stock_warehouse'))]"/>	
+		</record>
+
+	</data>
+</odoo>
